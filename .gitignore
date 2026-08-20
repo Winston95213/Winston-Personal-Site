@@ -1,0 +1,13 @@
+node_modules
+.next
+.env
+*.log
+backend/db.sqlite3
+backend/media/
+dist/
+.idea/
+venv/
+__pycache__/
+*.py[cod]
+tsconfig.tsbuildinfo
+cloudflared.personal.yml

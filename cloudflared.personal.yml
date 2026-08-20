@@ -1,0 +1,10 @@
+tunnel: debdfab4-d399-408d-9cd5-e44f7e5c93ff
+credentials-file: /Users/winston/.cloudflared/debdfab4-d399-408d-9cd5-e44f7e5c93ff.json
+protocol: http2
+
+ingress:
+  - hostname: gdtumn.com
+    service: http://127.0.0.1:8000
+  - hostname: my.gdtumn.com
+    service: http://127.0.0.1:5173
+  - service: http_status:404

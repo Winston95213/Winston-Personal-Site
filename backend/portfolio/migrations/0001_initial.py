@@ -1,0 +1,18 @@
+from django.db import migrations, models
+import django.db.models.deletion
+import django.core.validators
+import portfolio.models
+
+class Migration(migrations.Migration):
+    initial=True
+    dependencies=[]
+    operations=[
+        migrations.CreateModel(name="ChatRoom",fields=[("id",models.BigAutoField(auto_created=True,primary_key=True,serialize=False,verbose_name="ID")),("created_at",models.DateTimeField(auto_now_add=True)),("updated_at",models.DateTimeField(auto_now=True)),("public_id",models.CharField(default=portfolio.models.public_id,editable=False,max_length=48,unique=True)),("name",models.CharField(max_length=100)),("recipient",models.CharField(blank=True,max_length=100)),("description",models.CharField(blank=True,max_length=300)),("pin_hash",models.CharField(max_length=128)),("expires_at",models.DateTimeField(blank=True,null=True)),("is_active",models.BooleanField(default=True))]),
+        migrations.CreateModel(name="ContactMessage",fields=[("id",models.BigAutoField(auto_created=True,primary_key=True,serialize=False,verbose_name="ID")),("created_at",models.DateTimeField(auto_now_add=True)),("updated_at",models.DateTimeField(auto_now=True)),("name",models.CharField(max_length=100)),("email",models.EmailField(max_length=254)),("subject",models.CharField(max_length=150)),("message",models.TextField(max_length=5000))]),
+        migrations.CreateModel(name="ScheduleEvent",fields=[("id",models.BigAutoField(auto_created=True,primary_key=True,serialize=False,verbose_name="ID")),("created_at",models.DateTimeField(auto_now_add=True)),("updated_at",models.DateTimeField(auto_now=True)),("public_id",models.CharField(default=portfolio.models.public_id,editable=False,max_length=48,unique=True)),("title",models.CharField(max_length=120)),("description",models.CharField(blank=True,max_length=500)),("timezone",models.CharField(max_length=64)),("starts_at",models.DateTimeField()),("ends_at",models.DateTimeField()),("interval_minutes",models.PositiveSmallIntegerField(default=30)),("is_active",models.BooleanField(default=True)),("confirmed_at",models.DateTimeField(blank=True,null=True))]),
+        migrations.CreateModel(name="ChatMessage",fields=[("id",models.BigAutoField(auto_created=True,primary_key=True,serialize=False,verbose_name="ID")),("created_at",models.DateTimeField(auto_now_add=True)),("updated_at",models.DateTimeField(auto_now=True)),("sender",models.CharField(max_length=60)),("body",models.TextField(blank=True,max_length=4000)),("image",models.ImageField(blank=True,upload_to="chat/%Y/%m/",validators=[django.core.validators.FileExtensionValidator(["jpg","jpeg","png","webp"])])),("room",models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,related_name="messages",to="portfolio.chatroom"))]),
+        migrations.CreateModel(name="ScheduleAvailability",fields=[("id",models.BigAutoField(auto_created=True,primary_key=True,serialize=False,verbose_name="ID")),("created_at",models.DateTimeField(auto_now_add=True)),("updated_at",models.DateTimeField(auto_now=True)),("name",models.CharField(max_length=60)),("slots",models.JSONField(default=list)),("event",models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,related_name="availability",to="portfolio.scheduleevent"))]),
+        migrations.AddIndex(model_name="chatroom",index=models.Index(fields=["is_active","expires_at"],name="portfolio_c_is_acti_7a3a1f_idx")),
+        migrations.AddIndex(model_name="chatmessage",index=models.Index(fields=["room","created_at"],name="portfolio_c_room_id_4c9942_idx")),
+        migrations.AddConstraint(model_name="scheduleavailability",constraint=models.UniqueConstraint(fields=("event","name"),name="unique_participant_per_event")),
+    ]

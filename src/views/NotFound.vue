@@ -1,0 +1,1 @@
+<template><main id="main" class="page"><section class="shell page-head"><div class="eyebrow">404</div><h1>Page not found.</h1><p class="lead">The page you’re looking for doesn’t exist or has moved.</p><RouterLink class="button" to="/">Back home</RouterLink></section></main></template>
