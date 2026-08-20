@@ -22,3 +22,4 @@ A TypeScript + Vue portfolio backed by Django. Phase 3 adds secure, invitation-o
 - Use a managed PostgreSQL database and run Django migrations.
 - Add Redis-backed rate limiting and private S3-compatible object storage before production. The current local filesystem storage is for development only.
 - Add a transactional email transport if contact-form notifications are needed.
+# Winston-Personal-Site
