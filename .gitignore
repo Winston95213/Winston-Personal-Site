@@ -11,3 +11,4 @@ __pycache__/
 *.py[cod]
 tsconfig.tsbuildinfo
 cloudflared.personal.yml
+public/resume.pdf
