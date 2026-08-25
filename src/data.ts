@@ -31,7 +31,7 @@ export const profile = {
   location: "Minneapolis, Minnesota",
   about: "I’m a computer science student and full-stack developer who enjoys turning real-world decisions into clear, useful software. My work spans Vue and Django products, AI-assisted experiences, data pipelines, and production deployment—from a campus dining platform to an AR-ready digital temple.",
   currently: "Pursuing a B.A. in Computer Science at the University of Minnesota Twin Cities, with expected graduation in June 2028.",
-  resumeUrl: "", // e.g. /resume.pdf
+  resumeUrl: "/resume.pdf",
 };
 
 export const skills = [
