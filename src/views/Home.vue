@@ -23,7 +23,11 @@ import { profile, publishedEducation, publishedExperience, publishedProjects, sk
     <section v-if="publishedProjects.length" class="section">
       <div class="shell"><div class="section-head"><div><div class="eyebrow">Selected work</div><h2>Things I’ve made.</h2></div><RouterLink class="text-link" to="/projects">All projects →</RouterLink></div>
         <article v-for="project in publishedProjects.slice(0, 3)" :key="project.slug" class="showcase">
-          <div class="project-visual" :aria-label="`${project.name} project visual`"><span>{{ project.name }}</span></div>
+          <a v-if="project.image && project.liveUrl" class="project-visual has-image" :href="project.liveUrl" target="_blank" rel="noopener noreferrer" :aria-label="`Open ${project.name} live website`"><img class="project-image" :src="project.image" alt=""/><span class="project-image-link">Visit live site <span aria-hidden="true">↗</span></span></a>
+          <div v-else :class="['project-visual', { 'has-image': project.image }]" :aria-label="`${project.name} project visual`">
+            <img v-if="project.image" class="project-image" :src="project.image" :alt="`${project.name} screenshot`"/>
+            <span v-else>{{ project.name }}</span>
+          </div>
           <div class="project-detail"><div class="eyebrow">{{ project.role || "Project case study" }}</div><h3>{{ project.name }}</h3><p>{{ project.summary }}</p><div class="tags"><span v-for="tech in project.technologies" :key="tech" class="tag">{{ tech }}</span></div><div class="project-links"><RouterLink :to="`/projects/${project.slug}`">Read case study →</RouterLink><a v-if="project.github" class="external" :href="project.github" target="_blank" rel="noopener noreferrer">GitHub</a></div></div>
         </article>
       </div>
