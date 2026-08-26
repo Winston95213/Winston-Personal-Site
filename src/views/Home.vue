@@ -1,42 +1,13 @@
 <script setup lang="ts">
 import { profile, publishedEducation, publishedExperience, publishedProjects, skills } from "../data";
-
-function moveHero(event: PointerEvent) {
-  if (event.pointerType !== "mouse") return;
-  const hero = event.currentTarget as HTMLElement;
-  const bounds = hero.getBoundingClientRect();
-  const x = (event.clientX - bounds.left) / bounds.width;
-  const y = (event.clientY - bounds.top) / bounds.height;
-
-  hero.style.setProperty("--hero-pointer-x", `${x * 100}%`);
-  hero.style.setProperty("--hero-pointer-y", `${y * 100}%`);
-  hero.style.setProperty("--hero-shift-x", `${(x - 0.5) * 28}px`);
-  hero.style.setProperty("--hero-shift-y", `${(y - 0.5) * 28}px`);
-  hero.dataset.pointerActive = "true";
-}
-
-function resetHero(event: PointerEvent) {
-  const hero = event.currentTarget as HTMLElement;
-  hero.style.removeProperty("--hero-pointer-x");
-  hero.style.removeProperty("--hero-pointer-y");
-  hero.style.removeProperty("--hero-shift-x");
-  hero.style.removeProperty("--hero-shift-y");
-  hero.dataset.pointerActive = "false";
-}
 </script>
 
 <template>
   <main id="main" class="page">
-    <section class="shell hero hero-interactive" @pointermove="moveHero" @pointerleave="resetHero">
-      <div class="hero-field" aria-hidden="true">
-        <div class="hero-field-grid"></div>
-        <div class="hero-orbit hero-orbit-one"></div><div class="hero-orbit hero-orbit-two"></div>
-        <div class="hero-node hero-node-api">API</div><div class="hero-node hero-node-data">DATA</div><div class="hero-node hero-node-ai">AI</div>
-        <div class="hero-cursor"></div>
-      </div>
+    <section class="shell hero">
       <div class="hero-copy">
         <div class="eyebrow">{{ profile.draft ? "Software engineering portfolio" : profile.location }}</div>
-        <h1 v-if="!profile.draft">{{ profile.name }} builds <em>products that matter.</em></h1>
+        <h1 v-if="!profile.draft">Winston's Portfolio.</h1>
         <h1 v-else>Engineering work, made <em>clear.</em></h1>
         <p class="lead">{{ profile.tagline }}</p>
         <div class="actions"><RouterLink class="button" to="/projects">View selected work</RouterLink><RouterLink class="button secondary" to="/resume">Resume</RouterLink></div>
