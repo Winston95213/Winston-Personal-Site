@@ -30,7 +30,7 @@ export const profile = {
   linkedin: "",
   location: "Minneapolis, Minnesota",
   about: "I’m a computer science student and full-stack developer who enjoys turning real-world decisions into clear, useful software. My work spans Vue and Django products, AI-assisted experiences, data pipelines, and production deployment—from a campus dining platform to an AR-ready digital temple.",
-  currently: "Pursuing a B.A. in Computer Science at the University of Minnesota Twin Cities, with expected graduation in June 2028.",
+  currently: "Majoring in Computer Science at the University of Minnesota Twin Cities, with expected graduation in June 2028.",
   resumeUrl: "/winston-chang-resume.pdf",
 };
 
@@ -48,7 +48,8 @@ export const experience: { role: string; company: string; location?: string; dat
 ];
 
 export const education: { school: string; degree: string; location?: string; dates: string; details?: string[]; published: boolean }[] = [
-  { school: "University of Minnesota, Twin Cities", degree: "Bachelor of Arts in Computer Science", location: "Minneapolis, Minnesota", dates: "Expected Jun 2028", details: ["College of Liberal Arts"], published: true },
+  { school: "University of Minnesota, Twin Cities", degree: "Majoring in Computer Science", location: "Minneapolis, Minnesota", dates: "Expected Jun 2028", details: ["College of Liberal Arts"], published: true },
+  { school: "I-Shou International High School", degree: "High School Diploma", location: "Kaohsiung, Taiwan", dates: "Graduated", published: true },
 ];
 
 export const achievements: { title: string; organization: string; year: string; detail?: string; link?: string; published: boolean }[] = [
