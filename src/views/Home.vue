@@ -1,10 +1,30 @@
 <script setup lang="ts">
 import { profile, publishedEducation, publishedExperience, publishedProjects, skills } from "../data";
+
+function moveHero(event: PointerEvent) {
+  if (event.pointerType !== "mouse") return;
+  const hero = event.currentTarget as HTMLElement;
+  const bounds = hero.getBoundingClientRect();
+  hero.style.setProperty("--hero-pointer-x", `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+  hero.style.setProperty("--hero-pointer-y", `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+  hero.dataset.pointerActive = "true";
+}
+
+function resetHero(event: PointerEvent) {
+  const hero = event.currentTarget as HTMLElement;
+  hero.style.removeProperty("--hero-pointer-x");
+  hero.style.removeProperty("--hero-pointer-y");
+  hero.dataset.pointerActive = "false";
+}
 </script>
 
 <template>
   <main id="main" class="page">
-    <section class="shell hero">
+    <section class="shell hero hero-interactive" @pointermove="moveHero" @pointerleave="resetHero">
+      <div class="hero-pointer-effect" aria-hidden="true">
+        <span class="hero-pointer-ring"></span>
+        <span class="hero-pointer-core"></span>
+      </div>
       <div class="hero-copy">
         <div class="eyebrow">{{ profile.draft ? "Software engineering portfolio" : profile.location }}</div>
         <h1 v-if="!profile.draft">Winston's Portfolio.</h1>
