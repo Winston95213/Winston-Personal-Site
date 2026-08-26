@@ -24,6 +24,9 @@ function resetHero(event: PointerEvent) {
       <div class="hero-pointer-effect" aria-hidden="true">
         <span class="hero-pointer-ring"></span>
         <span class="hero-pointer-core"></span>
+        <span class="hero-pointer-satellite hero-pointer-satellite-one"></span>
+        <span class="hero-pointer-satellite hero-pointer-satellite-two"></span>
+        <span class="hero-pointer-satellite hero-pointer-satellite-three"></span>
       </div>
       <div class="hero-copy">
         <div class="eyebrow">{{ profile.draft ? "Software engineering portfolio" : profile.location }}</div>
@@ -57,7 +60,7 @@ function resetHero(event: PointerEvent) {
 
     <section class="section"><div class="shell"><div class="section-head"><div><div class="eyebrow">Technical toolkit</div><h2>Tools, not buzzwords.</h2></div></div><div class="toolkit"><div v-for="group in skills" :key="group.category" class="tool-group"><h3>{{ group.category }}</h3><div class="tags"><span v-for="item in group.items" :key="item" class="tag">{{ item }}</span></div></div></div></div></section>
 
-    <section v-if="publishedEducation.length" class="section"><div class="shell"><div class="section-head"><div><div class="eyebrow">Education</div><h2>Foundation.</h2></div><RouterLink class="text-link" to="/education">Education →</RouterLink></div><div class="timeline"><article v-for="item in publishedEducation.slice(0,1)" :key="item.school" class="timeline-item"><div class="eyebrow">{{ item.dates }}</div><h3>{{ item.school }}</h3><strong>{{ item.degree }}</strong></article></div></div></section>
+    <section v-if="publishedEducation.length" class="section"><div class="shell"><div class="section-head"><div><div class="eyebrow">Education</div><h2>Foundation.</h2></div><RouterLink class="text-link" to="/education">Education →</RouterLink></div><div class="timeline"><article v-for="item in publishedEducation.slice(0,2)" :key="item.school" class="timeline-item"><div class="eyebrow">{{ item.dates }}</div><h3>{{ item.school }}</h3><strong>{{ item.degree }}</strong></article></div></div></section>
 
     <section class="section"><div class="shell cta"><div class="eyebrow" style="color:#93c5fd">Contact</div><h2>Let’s build something worthwhile.</h2><p>For software engineering opportunities, collaborations, or thoughtful technical conversations.</p><RouterLink class="button" to="/contact">Get in touch</RouterLink></div></section>
   </main>
