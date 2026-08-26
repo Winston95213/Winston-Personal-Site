@@ -24,7 +24,7 @@ export const profile = {
   draft: false,
   name: "Winston Chang",
   title: "Full-Stack Developer & Computer Science Student",
-  tagline: "I build practical, AI-enabled web products—from responsive interfaces to dependable Django APIs and the infrastructure behind them.",
+  tagline: "I design and ship full-stack web products: thoughtful interfaces, reliable APIs, and AI features with a clear purpose.",
   email: "chan2508@umn.edu",
   github: "https://github.com/Winston95213",
   linkedin: "",
