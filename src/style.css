@@ -99,6 +99,6 @@ a.project-visual.has-image { display:block; color:inherit; cursor:pointer; isola
 
 /* PCW-style particle network: autonomous, limited to the hero's open side. */
 .hero-particle-hero { position:relative; isolation:isolate; overflow:clip; }
-.hero-particle-network { position:absolute; z-index:0; top:0; right:0; width:min(52%,660px); height:100%; pointer-events:none; opacity:.82; }
+.hero-particle-network { position:absolute; z-index:0; top:0; right:0; width:min(58%,720px); height:100%; pointer-events:none; opacity:.86; }
 .hero-particle-hero .hero-copy { position:relative; z-index:1; }
 @media (max-width:760px),(prefers-reduced-motion:reduce) { .hero-particle-network { display:none; } }

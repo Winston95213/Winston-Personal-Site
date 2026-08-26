@@ -12,14 +12,16 @@ type HeroParticle = {
 };
 
 const heroParticleCanvas = ref<HTMLCanvasElement | null>(null);
+const heroParticleArea = ref<HTMLElement | null>(null);
 let stopHeroParticles: (() => void) | undefined;
 
 onMounted(() => {
   const canvas = heroParticleCanvas.value;
+  const area = heroParticleArea.value;
   const compactViewport = window.matchMedia("(max-width: 760px)");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  if (!canvas || compactViewport.matches || reducedMotion.matches) return;
+  if (!canvas || !area || compactViewport.matches || reducedMotion.matches) return;
 
   const context = canvas.getContext("2d");
   if (!context) return;
@@ -27,6 +29,7 @@ onMounted(() => {
   let width = 0;
   let height = 0;
   let animationFrame = 0;
+  let cursor: { x: number; y: number } | undefined;
   const particles: HeroParticle[] = [];
 
   const makeParticle = (): HeroParticle => ({
@@ -34,9 +37,17 @@ onMounted(() => {
     y: Math.random() * height,
     vx: (Math.random() - 0.5) * 1.25,
     vy: (Math.random() - 0.5) * 1.25,
-    radius: 1 + Math.random() * 2,
+    radius: 1.2 + Math.random() * 2.2,
     opacity: 0.24 + Math.random() * 0.38,
   });
+
+  const updateCursor = (event: PointerEvent) => {
+    const bounds = canvas.getBoundingClientRect();
+    const insideNetwork = event.clientX >= bounds.left && event.clientX <= bounds.right
+      && event.clientY >= bounds.top && event.clientY <= bounds.bottom;
+    cursor = insideNetwork ? { x: event.clientX - bounds.left, y: event.clientY - bounds.top } : undefined;
+  };
+  const clearCursor = () => { cursor = undefined; };
 
   const resize = () => {
     const bounds = canvas.getBoundingClientRect();
@@ -47,7 +58,7 @@ onMounted(() => {
     canvas.height = Math.round(height * pixelRatio);
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
-    const count = Math.max(24, Math.min(42, Math.round((width * height) / 7200)));
+    const count = Math.max(28, Math.min(50, Math.round((width * height) / 6800)));
     while (particles.length < count) particles.push(makeParticle());
     particles.splice(count);
   };
@@ -56,6 +67,23 @@ onMounted(() => {
     context.clearRect(0, 0, width, height);
 
     for (const particle of particles) {
+      if (cursor) {
+        const deltaX = cursor.x - particle.x;
+        const deltaY = cursor.y - particle.y;
+        const distance = Math.hypot(deltaX, deltaY);
+        if (distance > 0 && distance < 175) {
+          const force = (1 - distance / 175) * 0.018;
+          particle.vx += (deltaX / distance) * force;
+          particle.vy += (deltaY / distance) * force;
+        }
+      }
+
+      const speed = Math.hypot(particle.vx, particle.vy);
+      if (speed > 1.35) {
+        particle.vx = (particle.vx / speed) * 1.35;
+        particle.vy = (particle.vy / speed) * 1.35;
+      }
+
       particle.x += particle.vx;
       particle.y += particle.vy;
 
@@ -70,8 +98,8 @@ onMounted(() => {
       for (let peerIndex = index + 1; peerIndex < particles.length; peerIndex += 1) {
         const peer = particles[peerIndex];
         const distance = Math.hypot(particle.x - peer.x, particle.y - peer.y);
-        if (distance > 150) continue;
-        context.strokeStyle = `rgba(37, 99, 235, ${(1 - distance / 150) * 0.24})`;
+        if (distance > 160) continue;
+        context.strokeStyle = `rgba(37, 99, 235, ${(1 - distance / 160) * 0.24})`;
         context.lineWidth = 1;
         context.beginPath();
         context.moveTo(particle.x, particle.y);
@@ -92,11 +120,15 @@ onMounted(() => {
 
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
+  area.addEventListener("pointermove", updateCursor);
+  area.addEventListener("pointerleave", clearCursor);
   resize();
   draw();
   stopHeroParticles = () => {
     window.cancelAnimationFrame(animationFrame);
     observer.disconnect();
+    area.removeEventListener("pointermove", updateCursor);
+    area.removeEventListener("pointerleave", clearCursor);
   };
 });
 
@@ -105,7 +137,7 @@ onBeforeUnmount(() => stopHeroParticles?.());
 
 <template>
   <main id="main" class="page">
-    <section class="shell hero hero-particle-hero">
+    <section ref="heroParticleArea" class="shell hero hero-particle-hero">
       <canvas ref="heroParticleCanvas" class="hero-particle-network" aria-hidden="true"></canvas>
       <div class="hero-copy">
         <div class="eyebrow">{{ profile.draft ? "Software engineering portfolio" : profile.location }}</div>
