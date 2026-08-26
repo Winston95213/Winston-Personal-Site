@@ -43,9 +43,10 @@ onMounted(() => {
 
   const updateCursor = (event: PointerEvent) => {
     const bounds = canvas.getBoundingClientRect();
-    const insideNetwork = event.clientX >= bounds.left && event.clientX <= bounds.right
-      && event.clientY >= bounds.top && event.clientY <= bounds.bottom;
-    cursor = insideNetwork ? { x: event.clientX - bounds.left, y: event.clientY - bounds.top } : undefined;
+    cursor = {
+      x: Math.min(Math.max(event.clientX - bounds.left, 0), width),
+      y: Math.min(Math.max(event.clientY - bounds.top, 0), height),
+    };
   };
   const clearCursor = () => { cursor = undefined; };
 
@@ -71,17 +72,17 @@ onMounted(() => {
         const deltaX = cursor.x - particle.x;
         const deltaY = cursor.y - particle.y;
         const distance = Math.hypot(deltaX, deltaY);
-        if (distance > 0 && distance < 175) {
-          const force = (1 - distance / 175) * 0.018;
+        if (distance > 0 && distance < 260) {
+          const force = (1 - distance / 260) * 0.07;
           particle.vx += (deltaX / distance) * force;
           particle.vy += (deltaY / distance) * force;
         }
       }
 
       const speed = Math.hypot(particle.vx, particle.vy);
-      if (speed > 1.35) {
-        particle.vx = (particle.vx / speed) * 1.35;
-        particle.vy = (particle.vy / speed) * 1.35;
+      if (speed > 1.7) {
+        particle.vx = (particle.vx / speed) * 1.7;
+        particle.vy = (particle.vy / speed) * 1.7;
       }
 
       particle.x += particle.vx;
