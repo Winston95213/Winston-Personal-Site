@@ -28,6 +28,11 @@ function resetHero(event: PointerEvent) {
         <span class="hero-pointer-satellite hero-pointer-satellite-two"></span>
         <span class="hero-pointer-satellite hero-pointer-satellite-three"></span>
       </div>
+      <div class="hero-ambient" aria-hidden="true">
+        <span class="hero-ambient-dot hero-ambient-dot-one"></span>
+        <span class="hero-ambient-dot hero-ambient-dot-two"></span>
+        <span class="hero-ambient-dot hero-ambient-dot-three"></span>
+      </div>
       <div class="hero-copy">
         <div class="eyebrow">{{ profile.draft ? "Software engineering portfolio" : profile.location }}</div>
         <h1 v-if="!profile.draft">Winston's Portfolio.</h1>
